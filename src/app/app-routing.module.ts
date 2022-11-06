@@ -3,13 +3,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'folder/Inbox',
+    path: '**',
+    redirectTo: 'ng/3',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: 'ng/:id',
+    loadChildren: () => import('./pages/name-generator/name-generator.module').then( m => m.NameGeneratorPageModule)
   }
 ];
 
