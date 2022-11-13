@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+    <!--<ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
           <ion-item routerDirection="root" [routerLink]="['ng/'+p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -8,7 +8,7 @@
           </ion-item>
         </ion-menu-toggle>
       </ion-content>
-    </ion-menu>
+    </ion-menu>-->
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

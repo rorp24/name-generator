@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToolsService } from 'src/app/services/tools.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-name-generator',
@@ -18,12 +19,12 @@ export class NameGeneratorPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
-    private tools: ToolsService
+    private tools: ToolsService,
+    private loading:LoadingController
     ) {
       this.route.params.subscribe(par=>{
-        console.log(par);
         this.race = par.id || 3;
-        this.gender = par.gender || 2;
+        this.gender = par.gender || 3;
         this.getNames();
       });
   }
@@ -31,7 +32,11 @@ export class NameGeneratorPage implements OnInit {
   ngOnInit() {
   }
 
-  getNames() {
+  async getNames() {
+    let load = await this.loading.create({
+      spinner: 'circles'
+    })
+    load.present()
     Promise.all([
       this.api.getNames(this.race,this.gender).toPromise(),
       this.api.getSurnames(this.race).toPromise()
@@ -42,7 +47,7 @@ export class NameGeneratorPage implements OnInit {
           this.names.push(this.tools.capitalize(names[0][i].name) + ' ' + this.tools.capitalize(names[1][i].surname));
         });
       }
-      console.log(this.names);
+      load.dismiss()
     });
   }
 

@@ -1,15 +1,31 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>nameGenerator</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Générateur de nom</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div style="display: flex;">
+    <ion-label class="label-for-genre">Genre des prénoms:</ion-label>
+    <ion-select placeholder="Genre" interface="popover"  [(ngModel)]="gender">
+      <ion-select-option [value]="0">Féminins</ion-select-option>
+      <ion-select-option [value]="1">Masculins</ion-select-option>
+      <ion-select-option [value]="3">Tous</ion-select-option>
+    </ion-select>
+  </div>
   <ion-grid>
     <ion-row>
-      <ion-col size="6" *ngFor="let name of names">
+      <ion-col class="name" size="12" sizeMd="6" *ngFor="let name of names">
         {{name}}
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="getNames()">
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
