@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import { LoadingController } from '@ionic/angular';
+import { CacheService } from 'src/app/services/cache.service';
 
 @Component({
   selector: 'app-name-generator',
@@ -12,7 +13,8 @@ import { LoadingController } from '@ionic/angular';
 
 export class NameGeneratorPage implements OnInit {
   names: Array<string>;
-  race: number;
+  currentRace: number;
+  racesList
   gender: 0|1|2;
 
   constructor(
@@ -20,13 +22,31 @@ export class NameGeneratorPage implements OnInit {
     private route: ActivatedRoute,
     private api: ApiService,
     private tools: ToolsService,
+    private cache: CacheService,
     private loading:LoadingController
     ) {
       this.route.params.subscribe(par=>{
-        this.race = par.id || 3;
+        this.currentRace = par.id || 3;
         this.gender = par.gender || 3;
         this.getNames();
       });
+      if(this.cache.racesData && this.cache.racesData.length){
+        this.racesList = this.cache.racesData
+      }
+      else{
+        this.api.getRaces().subscribe(races=>{
+          if(Array.isArray(races)){
+            this.cache.racesData = races;
+            this.racesList = this.cache.racesData.map((race)=> {
+              const lang = this.cache.lang;
+              if(lang){
+                console.log(lang);
+              }
+              return {title: this.tools.capitalize(race.frname) ,id:race.id};
+            });
+          }
+        });
+      }
   }
 
   ngOnInit() {
@@ -38,8 +58,8 @@ export class NameGeneratorPage implements OnInit {
     })
     load.present()
     Promise.all([
-      this.api.getNames(this.race,this.gender).toPromise(),
-      this.api.getSurnames(this.race).toPromise()
+      this.api.getNames(this.currentRace,this.gender).toPromise(),
+      this.api.getSurnames(this.currentRace).toPromise()
     ]).then(names=>{
       if(Array.isArray(names[0]) && Array.isArray(names[1])){
         this.names = [];
