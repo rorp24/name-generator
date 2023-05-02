@@ -14,8 +14,10 @@ import { CacheService } from 'src/app/services/cache.service';
 export class NameGeneratorPage implements OnInit {
   names: Array<string>;
   currentRace: number;
-  racesList
-  gender: 0|1|2;
+  racesList;
+  tagsList;
+  currentTag: string;
+  gender: 0 | 1 | 2 | 3;
 
   constructor(
     private router: Router,
@@ -23,51 +25,59 @@ export class NameGeneratorPage implements OnInit {
     private api: ApiService,
     private tools: ToolsService,
     private cache: CacheService,
-    private loading:LoadingController
-    ) {
-      this.route.params.subscribe(par=>{
-        this.currentRace = par.id || 3;
-        this.gender = par.gender || 3;
-        this.getNames();
+    private loading: LoadingController
+  ) {
+    this.route.params.subscribe(par => {
+      this.currentRace = par.id || 3;
+      this.gender = par.gender || 3;
+      this.currentTag = par.tag || 0;
+      this.getNames();
+    });
+    if (this.cache.racesData && this.cache.racesData.length) {
+      this.racesList = this.cache.racesData;
+    }
+    else {
+      this.api.getRaces().subscribe(races => {
+        if (Array.isArray(races)) {
+          this.cache.racesData = races;
+          this.racesList = this.cache.racesData.map((race) => {
+            const lang = this.cache.lang;
+            if (lang) {
+              //TODO ajouter la langue
+              console.log(lang);
+            }
+            return { title: this.tools.capitalize(race.frname), id: race.id };
+          });
+        }
       });
-      if(this.cache.racesData && this.cache.racesData.length){
-        this.racesList = this.cache.racesData
-      }
-      else{
-        this.api.getRaces().subscribe(races=>{
-          if(Array.isArray(races)){
-            this.cache.racesData = races;
-            this.racesList = this.cache.racesData.map((race)=> {
-              const lang = this.cache.lang;
-              if(lang){
-                console.log(lang);
-              }
-              return {title: this.tools.capitalize(race.frname) ,id:race.id};
-            });
-          }
-        });
-      }
+    }
+    if (this.cache.tagsData && this.cache.tagsData.length) {
+      this.tagsList = this.cache.tagsData;
+    }
   }
 
   ngOnInit() {
   }
 
   async getNames() {
-    let load = await this.loading.create({
+    const load = await this.loading.create({
       spinner: 'circles'
-    })
-    load.present()
+    });
+    load.present();
     Promise.all([
-      this.api.getNames(this.currentRace,this.gender).toPromise(),
+      this.api.getNames(this.currentRace, this.gender, this.currentTag).toPromise(),
       this.api.getSurnames(this.currentRace).toPromise()
-    ]).then(names=>{
-      if(Array.isArray(names[0]) && Array.isArray(names[1])){
+    ]).then(names => {
+      if (Array.isArray(names[0]) && Array.isArray(names[1])) {
         this.names = [];
-        names[0].forEach((_,i) => {
-          this.names.push(this.tools.capitalize(names[0][i].name) + ' ' + this.tools.capitalize(names[1][i].surname));
+        names[0].forEach((_, i) => {
+          let string = this.tools.capitalize(names[0][i].name)
+          if (names[1]['length'])
+            string += ' ' + this.tools.capitalize(names[1][i].surname)
+          this.names.push(string);
         });
       }
-      load.dismiss()
+      load.dismiss();
     });
   }
 

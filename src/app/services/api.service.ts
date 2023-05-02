@@ -12,24 +12,28 @@ export class ApiService {
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) { }
 
-  getNames(raceId,gender){
-    const endpoint ='get_names';
-    return this.http.get(API_URL+endpoint,{params:{race:raceId,gender,random:'true'}});
+  getNames(raceId, gender, tag = undefined) {
+    const endpoint = 'get_names';
+    const params = { race: raceId, gender, random: 'true' }
+    if (tag) {
+      params['tag'] = tag
+    }
+    return this.http.get(API_URL + endpoint, { params });
   }
 
-  getSurnames(raceId){
-    const endpoint ='get_surnames';
-    return this.http.get(API_URL+endpoint,{params:{race:raceId,random:'true'}});
+  getSurnames(raceId) {
+    const endpoint = 'get_surnames';
+    return this.http.get(API_URL + endpoint, { params: { race: raceId, random: 'true' } });
   }
 
-  getRaces(){
+  getRaces() {
     const endpoint = 'get_races';
-    return this.http.get(API_URL+endpoint,{params:{limit:'200',ids:'3'}});
+    return this.http.get(API_URL + endpoint, { params: { limit: '200', ids: '3,9' } });
   }
-  getTitles(lang){
+  getTitles(lang) {
     const endpoint = 'get_titles';
-    return this.http.get(API_URL+endpoint,{params:{lang,random:'true'}});
+    return this.http.get(API_URL + endpoint, { params: { lang, random: 'true' } });
   }
 }

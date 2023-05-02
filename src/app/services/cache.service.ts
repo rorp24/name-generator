@@ -7,10 +7,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CacheService {
   public lang: string;
   public racesData: Array<any>;
+  public tagsData: Array<any> = [
+    { ids: [9], value: 'generated', frname: 'procéduralement' }
+  ];
   private currentVal: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor() {
-
   }
 
   async updateNetworkStatus(val: string) {
