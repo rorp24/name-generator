@@ -7,16 +7,29 @@
 <ion-content>
   <ion-grid>
     <div style="display: flex;">
-      <!-- <ion-label class="label-for-race">Race:</ion-label>
+      <ion-label class="label-for-race">Race:</ion-label>
       <ion-select placeholder="Race" interface="popover" [(ngModel)]="currentRace">
         <ion-select-option *ngFor="let race of racesList" [value]="race.id">{{race.title}}</ion-select-option>
-      </ion-select> -->
-      <ion-label class="label-for-genre">Genre:</ion-label>
-      <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
-        <ion-select-option [value]="0">Féminins</ion-select-option>
-        <ion-select-option [value]="1">Masculins</ion-select-option>
-        <ion-select-option [value]="3">Tous</ion-select-option>
       </ion-select>
+      <ng-container *ngIf="currentRace == 9">
+        <!--si ange-->
+        <ion-label class="label-for-tag">générer les noms:</ion-label>
+        <ion-select placeholder="Tag" interface="popover" [(ngModel)]="currentTag">
+          <ion-select-option [value]="0">à partir d'une liste</ion-select-option>
+          <ng-container *ngFor="let tag of tagsList">
+            <ion-select-option [value]="tag.value">{{tag.frname}}</ion-select-option>
+            <!--*ngIf="tag.ids.includes(currentRace)"-->
+          </ng-container>
+        </ion-select>
+      </ng-container>
+      <ng-container *ngIf="currentRace != 9">
+        <ion-label class="label-for-genre">Genre:</ion-label>
+        <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
+          <ion-select-option [value]="0">Féminins</ion-select-option>
+          <ion-select-option [value]="1">Masculins</ion-select-option>
+          <ion-select-option [value]="3">Tous</ion-select-option>
+        </ion-select>
+      </ng-container>
       <ion-button (click)="getNames()" style="margin-left:auto">Générer</ion-button>
     </div>
     <ion-row>

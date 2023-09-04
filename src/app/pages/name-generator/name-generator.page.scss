@@ -1,13 +1,17 @@
-:host{
-    .name{
+:host {
+    .name {
         text-align: center;
     }
-    ion-select{
+
+    ion-select {
         width: fit-content;
     }
-    .label-for-genre, .label-for-race{
+
+    .label-for-genre,
+    .label-for-race,
+    .label-for-tag {
         margin-top: 13px;
         margin-left: 10px;
     }
-    
+
 }
