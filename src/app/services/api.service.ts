@@ -20,6 +20,10 @@ export class ApiService {
     if (tag) {
       params['tag'] = tag
     }
+
+    if (raceId == 9) {
+      params.gender = 3
+    }
     return this.http.get(API_URL + endpoint, { params });
   }
 
@@ -30,7 +34,7 @@ export class ApiService {
 
   getRaces() {
     const endpoint = 'get_races';
-    return this.http.get(API_URL + endpoint, { params: { limit: '200', ids: '3,9' } });
+    return this.http.get(API_URL + endpoint, { params: { limit: '200', ids: '3,9,10' } });
   }
   getTitles(lang) {
     const endpoint = 'get_titles';

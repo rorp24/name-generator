@@ -22,12 +22,14 @@
           </ng-container>
         </ion-select>
       </ng-container>
-      <ion-label class="label-for-genre">Genre:</ion-label>
-      <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
-        <ion-select-option [value]="0">Féminins</ion-select-option>
-        <ion-select-option [value]="1">Masculins</ion-select-option>
-        <ion-select-option [value]="3">Tous</ion-select-option>
-      </ion-select>
+      <ng-container *ngIf="currentRace != 9">
+        <ion-label class="label-for-genre">Genre:</ion-label>
+        <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
+          <ion-select-option [value]="0">Féminins</ion-select-option>
+          <ion-select-option [value]="1">Masculins</ion-select-option>
+          <ion-select-option [value]="3">Tous</ion-select-option>
+        </ion-select>
+      </ng-container>
       <ion-button (click)="getNames()" style="margin-left:auto">Générer</ion-button>
     </div>
     <ion-row>
