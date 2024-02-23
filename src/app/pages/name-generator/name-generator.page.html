@@ -13,8 +13,7 @@
         <ion-select-option [value]="race.id">{{race.title}}</ion-select-option>
         }
       </ion-select>
-      @switch (currentRace){
-      @case('9'){
+      @if(currentRace == 9){
       <!--si ange-->
       <ion-label class="label-for-tag">générer les noms:</ion-label>
       <ion-select placeholder="Tag" interface="popover" [(ngModel)]="currentTag">
@@ -24,14 +23,13 @@
         }
       </ion-select>
       }
-      @default{
+      @else{
       <ion-label class="label-for-genre">Genre:</ion-label>
       <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
         <ion-select-option [value]="0">Féminins</ion-select-option>
         <ion-select-option [value]="1">Masculins</ion-select-option>
         <ion-select-option [value]="3">Tous</ion-select-option>
       </ion-select>
-      }
       }
       <ion-button (click)="getNames()" style="margin-left:auto">Générer</ion-button>
     </div>

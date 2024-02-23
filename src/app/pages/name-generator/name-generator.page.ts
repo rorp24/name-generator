@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import { LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { CacheService } from 'src/app/services/cache.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class NameGeneratorPage implements OnInit {
     private api: ApiService,
     private tools: ToolsService,
     private cache: CacheService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private alert: AlertController
   ) {
     this.route.params.subscribe(par => {
       this.currentRace = par.id || 3;
@@ -66,7 +68,7 @@ export class NameGeneratorPage implements OnInit {
     load.present();
     let promiseList = []
     //angel
-    if (this.currentRace == 9) {
+    if (this.currentRace == 9 && this.currentTag) {
       promiseList.push(this.api.getGeneratedAngelName().toPromise())
     }
     else {
@@ -91,6 +93,17 @@ export class NameGeneratorPage implements OnInit {
         });
       }
       load.dismiss();
+    }).catch(async (r) => {
+      load.dismiss();
+      const alert = await this.alert.create({
+        header: 'Erreur',
+        message: 'Nous avons perdu la connexion avec le site d\'un rôliste flemmard. Veuillez vérifier votre connexion internet et recommencer.',
+        buttons: ['Compris'],
+        cssClass: "error"
+      });
+
+      alert.present();
+
     });
   }
 
