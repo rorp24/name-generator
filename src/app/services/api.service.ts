@@ -27,6 +27,11 @@ export class ApiService {
     return this.http.get(API_URL + endpoint, { params });
   }
 
+  getGeneratedAngelName() {
+    const endpoint = 'get_generated_angel_name';
+    return this.http.get(API_URL + endpoint, {});
+  }
+
   getSurnames(raceId) {
     const endpoint = 'get_surnames';
     return this.http.get(API_URL + endpoint, { params: { race: raceId, random: 'true' } });

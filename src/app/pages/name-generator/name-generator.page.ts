@@ -64,10 +64,23 @@ export class NameGeneratorPage implements OnInit {
       spinner: 'circles'
     });
     load.present();
-    Promise.all([
-      this.api.getNames(this.currentRace, this.gender, this.currentTag).toPromise(),
-      this.api.getSurnames(this.currentRace).toPromise()
-    ]).then(names => {
+    let promiseList = []
+    //angel
+    if (this.currentRace == 9) {
+      promiseList.push(this.api.getGeneratedAngelName().toPromise())
+    }
+    else {
+      promiseList.push(this.api.getNames(this.currentRace, this.gender, this.currentTag).toPromise(),)
+    }
+
+    //Orc ou nain
+    if (this.currentRace == 6 || this.currentRace == 14) {
+      //promiseList.push(/* l'appel d'api pour les clan généré */)
+    }
+    else {
+      promiseList.push(this.api.getSurnames(this.currentRace).toPromise())
+    }
+    Promise.all(promiseList).then(names => {
       if (Array.isArray(names[0]) && Array.isArray(names[1])) {
         this.names = [];
         names[0].forEach((_, i) => {
