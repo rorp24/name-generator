@@ -14,4 +14,15 @@
         margin-left: 10px;
     }
 
+    .selectbar {
+        display: flex;
+    }
+}
+
+@media (max-width:767px) {
+    :host {
+        .selectbar {
+            display: block;
+        }
+    }
 }

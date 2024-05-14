@@ -16,8 +16,8 @@ export class NameGeneratorPage implements OnInit {
   names: Array<string>;
   currentRace: number;
   racesList;
+  generated = false;
   tagsList;
-  currentTag: string;
   gender: 0 | 1 | 2 | 3;
 
   constructor(
@@ -32,7 +32,6 @@ export class NameGeneratorPage implements OnInit {
     this.route.params.subscribe(par => {
       this.currentRace = par.id || 3;
       this.gender = par.gender || 3;
-      this.currentTag = par.tag || 0;
       this.getNames();
     });
     if (this.cache.racesData && this.cache.racesData.length) {
@@ -68,11 +67,11 @@ export class NameGeneratorPage implements OnInit {
     load.present();
     let promiseList = []
     //angel
-    if (this.currentRace == 9 && this.currentTag) {
+    if (this.currentRace == 9 && this.generated) {
       promiseList.push(this.api.getGeneratedAngelName().toPromise())
     }
     else {
-      promiseList.push(this.api.getNames(this.currentRace, this.gender, this.currentTag).toPromise(),)
+      promiseList.push(this.api.getNames(this.currentRace, this.gender).toPromise(),)
     }
 
     //Orc ou nain

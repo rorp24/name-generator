@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { domain } from '../helper/domain.helper';
 
-const WEBSITE = 'https://un-roliste-flemmard.com/';
-const API_URL = WEBSITE + 'wp-json/rorp24-api/v1/name_generator/';
+const API_URL = domain + 'wp-json/rorp24-api/v1/name_generator/';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,9 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
-  getNames(raceId, gender, tag = undefined) {
+  getNames(raceId, gender) {
     const endpoint = 'get_names';
-    const params = { race: raceId, gender, random: 'true' }
-    if (tag) {
-      params['tag'] = tag
-    }
+    const params = { race_id: raceId, gender, random: 'true' }
 
     if (raceId == 9) {
       params.gender = 3
@@ -34,7 +31,7 @@ export class ApiService {
 
   getSurnames(raceId) {
     const endpoint = 'get_surnames';
-    return this.http.get(API_URL + endpoint, { params: { race: raceId, random: 'true' } });
+    return this.http.get(API_URL + endpoint, { params: { race_id: raceId, random: 'true' } });
   }
 
   getRaces() {
