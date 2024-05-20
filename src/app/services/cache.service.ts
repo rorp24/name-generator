@@ -7,7 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CacheService {
   public lang: string;
   public racesData: Array<any>;
-  public tagsData: Array<any> = [];
   private currentVal: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor() {

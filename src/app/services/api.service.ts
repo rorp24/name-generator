@@ -31,11 +31,8 @@ export class ApiService {
 
   getClanNames(tags = []) {
     const endpoint = 'get_clan_names';
-    if (tags.length) {
-      //TODO: ajout des tags
-    }
-    //TODO clan_names ne fonctionne pas, donc la fix
-    return this.http.get(API_URL + endpoint, {});
+    let tagsToString = ['clan', ...tags].join(',')
+    return this.http.get(API_URL + endpoint, { params: { tags: tagsToString } });
   }
 
   getSurnames(raceId) {
@@ -47,6 +44,7 @@ export class ApiService {
     const endpoint = 'get_races';
     return this.http.get(API_URL + endpoint, { params: { limit: '200', ids: '3,5,6,14,9,10' } });
   }
+
   getTitles(lang) {
     const endpoint = 'get_titles';
     return this.http.get(API_URL + endpoint, { params: { lang, random: 'true' } });

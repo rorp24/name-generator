@@ -17,7 +17,6 @@ export class NameGeneratorPage implements OnInit {
   currentRace: number;
   racesList;
   generated = false;
-  tagsList;
   gender: 0 | 1 | 2 | 3;
 
   constructor(
@@ -52,9 +51,6 @@ export class NameGeneratorPage implements OnInit {
         }
       });
     }
-    if (this.cache.tagsData && this.cache.tagsData.length) {
-      this.tagsList = this.cache.tagsData;
-    }
   }
 
   ngOnInit() {
@@ -77,12 +73,18 @@ export class NameGeneratorPage implements OnInit {
     }
 
     //Orc ou nain
-    if (this.currentRace == 6 || this.currentRace == 14) {
-      promiseList.push(this.api.getClanNames(this.tagsList).toPromise())
-      surnameIsClan = true
-    }
-    else {
-      promiseList.push(this.api.getSurnames(this.currentRace).toPromise())
+    switch (Number(this.currentRace)) {
+      case 6:
+        promiseList.push(this.api.getClanNames(['guerrier', 'sauvage']).toPromise())
+        surnameIsClan = true
+        break;
+      case 14:
+        promiseList.push(this.api.getClanNames(['guerrier', 'artisan']).toPromise())
+        surnameIsClan = true
+        break;
+      default:
+        promiseList.push(this.api.getSurnames(this.currentRace).toPromise())
+        break;
     }
 
     Promise.all(promiseList).then(names => {
