@@ -29,6 +29,15 @@ export class ApiService {
     return this.http.get(API_URL + endpoint, {});
   }
 
+  getClanNames(tags = []) {
+    const endpoint = 'get_clan_names';
+    if (tags.length) {
+      //TODO: ajout des tags
+    }
+    //TODO clan_names ne fonctionne pas, donc la fix
+    return this.http.get(API_URL + endpoint, {});
+  }
+
   getSurnames(raceId) {
     const endpoint = 'get_surnames';
     return this.http.get(API_URL + endpoint, { params: { race_id: raceId, random: 'true' } });
@@ -36,7 +45,7 @@ export class ApiService {
 
   getRaces() {
     const endpoint = 'get_races';
-    return this.http.get(API_URL + endpoint, { params: { limit: '200', ids: '3,9,10' } });
+    return this.http.get(API_URL + endpoint, { params: { limit: '200', ids: '3,5,6,14,9,10' } });
   }
   getTitles(lang) {
     const endpoint = 'get_titles';

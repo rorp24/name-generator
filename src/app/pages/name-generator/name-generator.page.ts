@@ -66,33 +66,42 @@ export class NameGeneratorPage implements OnInit {
     });
     load.present();
     let promiseList = []
+    let surnameIsClan = false;
+
     //angel
     if (this.currentRace == 9 && this.generated) {
       promiseList.push(this.api.getGeneratedAngelName().toPromise())
     }
     else {
-      promiseList.push(this.api.getNames(this.currentRace, this.gender).toPromise(),)
+      promiseList.push(this.api.getNames(this.currentRace, this.gender).toPromise())
     }
 
     //Orc ou nain
     if (this.currentRace == 6 || this.currentRace == 14) {
-      //promiseList.push(/* l'appel d'api pour les clan généré */)
+      promiseList.push(this.api.getClanNames(this.tagsList).toPromise())
+      surnameIsClan = true
     }
     else {
       promiseList.push(this.api.getSurnames(this.currentRace).toPromise())
     }
+
     Promise.all(promiseList).then(names => {
       if (Array.isArray(names[0]) && Array.isArray(names[1])) {
         this.names = [];
         names[0].forEach((_, i) => {
           let string = this.tools.capitalize(names[0][i].name)
-          if (names[1]['length'])
+
+          if (names[1]['length'] && surnameIsClan)
+            string += ' ' + this.tools.capitalize(names[1][i])
+          else
             string += ' ' + this.tools.capitalize(names[1][i].surname)
+
           this.names.push(string);
         });
       }
       load.dismiss();
     }).catch(async (r) => {
+      console.error(r)
       load.dismiss();
       const alert = await this.alert.create({
         header: 'Erreur',
@@ -100,9 +109,7 @@ export class NameGeneratorPage implements OnInit {
         buttons: ['Compris'],
         cssClass: "error"
       });
-
       alert.present();
-
     });
   }
 
