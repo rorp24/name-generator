@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { ApiService } from './services/api.service';
-import { CacheService } from './services/cache.service';
-import { ToolsService } from './services/tools.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +8,6 @@ import { ToolsService } from './services/tools.service';
 
 export class AppComponent {
 
-  public races;
   constructor() {
-    }
+  }
 }

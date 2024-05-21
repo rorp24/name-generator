@@ -6,41 +6,43 @@
 
 <ion-content>
   <ion-grid>
-    <div style="display: flex;">
-      <ion-label class="label-for-race">Race:</ion-label>
-      <ion-select placeholder="Race" interface="popover" [(ngModel)]="currentRace">
-        @for(race of racesList; track race.id){
-        <ion-select-option [value]="race.id">{{race.title}}</ion-select-option>
-        }
-      </ion-select>
-      @switch (currentRace){
-      @case('9'){
-      <!--si ange-->
-      <ion-label class="label-for-tag">générer les noms:</ion-label>
-      <ion-select placeholder="Tag" interface="popover" [(ngModel)]="currentTag">
-        <ion-select-option [value]="0">à partir d'une liste</ion-select-option>
-        @for(tag of tagsList; track tag.value){
-        <ion-select-option [value]="tag.value">{{tag.frname}}</ion-select-option>
-        }
-      </ion-select>
-      }
-      @default{
-      <ion-label class="label-for-genre">Genre:</ion-label>
-      <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
-        <ion-select-option [value]="0">Féminins</ion-select-option>
-        <ion-select-option [value]="1">Masculins</ion-select-option>
-        <ion-select-option [value]="3">Tous</ion-select-option>
-      </ion-select>
-      }
-      }
-      <ion-button (click)="getNames()" style="margin-left:auto">Générer</ion-button>
-    </div>
     <ion-row>
-      @for(name of names; track name){
-      <ion-col class="name" size="12" sizeMd="6">
-        {{name}}
+      <ion-col size="6" sizeMd="12" class="selectbar">
+        <ion-label class="label-for-race">Race:</ion-label>
+        <ion-select placeholder="Race" interface="popover" [(ngModel)]="currentRace">
+          @for(race of racesList; track race.id){
+          <ion-select-option [value]="race.id">{{race.title}}</ion-select-option>
+          }
+        </ion-select>
+        @if(currentRace == 9){
+        <!--si ange-->
+        <ion-label class="label-for-tag">générer les noms:</ion-label>
+        <ion-select placeholder="Tag" interface="popover" [(ngModel)]="generated">
+          <ion-select-option [value]="false">à partir d'une liste</ion-select-option>
+          <ion-select-option [value]="true">procéduralement</ion-select-option>
+        </ion-select>
+        }
+        @else{
+        <ion-label class="label-for-genre">Genre:</ion-label>
+        <ion-select placeholder="Genre" interface="popover" [(ngModel)]="gender">
+          <ion-select-option [value]="0">Féminins</ion-select-option>
+          <ion-select-option [value]="1">Masculins</ion-select-option>
+          <ion-select-option [value]="3">Tous</ion-select-option>
+        </ion-select>
+        }
+        <ion-button (click)="getNames()" style="margin-left:auto">Générer</ion-button>
       </ion-col>
-      }
+      <ion-col size="6" sizeMd="12">
+        <ion-grid>
+          <ion-row>
+            @for(name of names; track name){
+            <ion-col class="name" size="12" sizeMd="6">
+              {{name}}
+            </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+      </ion-col>
     </ion-row>
   </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
