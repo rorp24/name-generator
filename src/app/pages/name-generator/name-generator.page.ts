@@ -40,7 +40,7 @@ export class NameGeneratorPage implements OnInit {
       this.api.getRaces().subscribe(races => {
         if (Array.isArray(races)) {
           this.cache.racesData = races;
-          this.racesList = this.cache.racesData.map((race) => {
+          this.racesList = races.map((race) => {
             const lang = this.cache.lang;
             if (lang) {
               //TODO ajouter la langue
@@ -48,6 +48,7 @@ export class NameGeneratorPage implements OnInit {
             }
             return { title: this.tools.capitalize(race.frname), id: race.id };
           });
+          this.cache.racesData = this.racesList
         }
       });
     }
@@ -72,13 +73,13 @@ export class NameGeneratorPage implements OnInit {
       promiseList.push(this.api.getNames(this.currentRace, this.gender).toPromise())
     }
 
-    //Orc ou nain
+    //switch pour quand le surname est généré plutôt que cherché en base
     switch (Number(this.currentRace)) {
-      case 6:
+      case 6: //orc
         promiseList.push(this.api.getClanNames(['guerrier', 'sauvage']).toPromise())
         surnameIsClan = true
         break;
-      case 14:
+      case 14: //nain
         promiseList.push(this.api.getClanNames(['guerrier', 'artisan']).toPromise())
         surnameIsClan = true
         break;
