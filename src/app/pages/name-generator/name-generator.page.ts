@@ -93,12 +93,10 @@ export class NameGeneratorPage implements OnInit {
         this.names = [];
         names[0].forEach((_, i) => {
           let string = this.tools.capitalize(names[0][i].name)
-
           if (names[1]['length'] && surnameIsClan)
             string += ' ' + this.tools.capitalize(names[1][i])
-          else
+          else if (names[1]['length'])
             string += ' ' + this.tools.capitalize(names[1][i].surname)
-
           this.names.push(string);
         });
       }
@@ -108,7 +106,7 @@ export class NameGeneratorPage implements OnInit {
       load.dismiss();
       const alert = await this.alert.create({
         header: 'Erreur',
-        message: 'Nous avons perdu la connexion avec le site d\'un rôliste flemmard. Veuillez vérifier votre connexion internet et recommencer.',
+        message: '<p>une erreur est survenue:</p><p>' + r + '</p><p>Si elle persiste, n\'hésitez pas à faire un retour en cliquant sur <a href="https://github.com/rorp24/name-generator/issues" target="_blank">ce lien<a></p>',
         buttons: ['Compris'],
         cssClass: "error"
       });
