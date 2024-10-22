@@ -31,7 +31,7 @@ export class ApiService {
 
   getClanNames(tags = []) {
     const endpoint = 'get_clan_names';
-    let tagsToString = ['clan', ...tags].join(',')
+    let tagsToString = tags.join(',');
     return this.http.get(API_URL + endpoint, { params: { tags: tagsToString } });
   }
 
